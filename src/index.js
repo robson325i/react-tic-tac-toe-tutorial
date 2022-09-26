@@ -47,6 +47,16 @@ class Board extends React.Component {
     return null;
   }
 
+  calculateEnd() {
+    const squares = this.state.squares;
+    for (let i = 0; i < squares.length; i++) {
+      if (squares[i] === null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   handleClick(i) {
     const squares = this.state.squares.slice();
     const winner = this.calculateWinner();
@@ -74,11 +84,17 @@ class Board extends React.Component {
 
   render() {
     const winner = this.calculateWinner();
+    const end = this.calculateEnd();
     let status;
+
+    status = "Jogador atual: " + this.state.player;
+    
+    if (end) {
+      status = "Empate.";
+    }
+
     if (winner) {
-      status = "Winner: " + winner;
-    } else {
-      status = "Next player: " + this.state.player;
+      status = "Vencedor: " + winner;
     }
 
     return (
@@ -111,10 +127,10 @@ class Game extends React.Component {
         <div className="game-board">
           <Board />
         </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
+        {/* <div className="game-info">
+          <div></div>
+          <ol></ol>
+        </div> */}
       </div>
     );
   }
